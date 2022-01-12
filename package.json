@@ -1,0 +1,23 @@
+{
+   
+    "name": "nodeserver",
+    
+    "version": "0.2",
+    
+    "author": "CraftingDani",
+    
+    "description": "",
+    
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    
+    "dependencies": {
+        "ejs": "3.1.6",
+        "express": "4.17.2",
+        "mysql2": "^2.3.3"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.15"
+    }
+}
