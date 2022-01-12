@@ -1,3 +1,6 @@
+// code() by CraftingDani;
+
+
 //-- constants --\\
 
 const mysql = require("mysql2")
@@ -22,8 +25,8 @@ const db = mysql.createConnection
 
 server.listen(port)
 server.set("view engine", "ejs")
-server.use("/", router)
-server.use(express.static("static"))
+server.use("/", router) //implements "router.js"
+server.use(express.static("static")) //imports css/js from "static"
 
 db.connect(function(error)
 {
@@ -37,4 +40,4 @@ server.get("/*/", function(_req, res, ) //error page
     res.render("error", {errorCode: errorCode})
 })
 
-console.info(`Server running at localhost:${port}`)
+console.info(`Done. Server running at localhost:${port}`)

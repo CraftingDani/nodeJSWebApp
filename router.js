@@ -11,7 +11,9 @@ function loger(req, res, next)
 
 router.get("/", function(req, res)
 {
-    res.render("main")
+    const today = new Date();
+    const currentTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`
+    res.render("main", {currentTime: currentTime})
 })
 
 router.get("/users/:id", function(req, res)
