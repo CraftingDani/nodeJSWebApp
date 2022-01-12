@@ -1,1 +1,1 @@
-alert("main")
+console.info("loaded script.js in main")

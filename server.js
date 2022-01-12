@@ -3,7 +3,7 @@
 const mysql = require("mysql2")
 const express = require("express")
 
-const mainRouter = require("./routes/mainRouter.js")
+const router = require("./router.js")
 
 const port = 187
 const server = express() //aka "app"
@@ -22,7 +22,7 @@ const db = mysql.createConnection
 
 server.listen(port)
 server.set("view engine", "ejs")
-server.use("/", mainRouter)
+server.use("/", router)
 server.use(express.static("static"))
 
 db.connect(function(error)
@@ -30,10 +30,11 @@ db.connect(function(error)
     if(error) return console.error(error)
 })
 
-server.get("/*", function(_req, res, ) //error page
+server.get("/*/", function(_req, res, ) //error page
 {
-    res.status(404)
-    res.render("error", {errorCode: 404})
+    const errorCode = 404
+    res.status(errorCode)
+    res.render("error", {errorCode: errorCode})
 })
 
 console.info(`Server running at localhost:${port}`)

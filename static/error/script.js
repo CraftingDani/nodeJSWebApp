@@ -1,1 +1,1 @@
-alert("error")
+console.info("loaded script.js in error")
