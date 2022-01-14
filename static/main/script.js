@@ -1,1 +1,0 @@
-console.info("loaded script.js in main")
