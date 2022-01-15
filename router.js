@@ -1,19 +1,44 @@
+// Code() by CraftingDani;
+
+
+//-- constants --\\
+
 const express = require("express")
+const mysql = require("mysql2")
 const router = express.Router()
+const db = mysql.createConnection
+({
+    host: "localhost",
+    user: "nodeServer",
+    password: "robotUsingMySQL2",
+    port: 3306,
+    database: "nodewebserver"
+})
 
-router.use(loger)
 
-function loger(req, res, next)
+//-- functionality --\\
+
+router.use(onRequest)
+
+db.connect(function(error)
+{
+    if(error) throw error
+    db.query("SELECT * FROM `nodeserver` WHERE id=1;", function(error, res)
+    {
+        if(error) throw error
+        console.log(res)
+    })
+})
+
+function onRequest(req, _res, next)
 {
     console.info(`request: ${req.url}`)
     next()
 }
 
-router.get("/", function(req, res)
+router.get("/", function(_req, res)
 {
-    const today = new Date();
-    const currentTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`
-    res.render("main", {currentTime: currentTime})
+    res.render("main")
 })
 
 router.get("/users/:id", function(req, res)
