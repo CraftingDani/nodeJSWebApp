@@ -21,9 +21,8 @@ server.use(express.static("static")) //imports css/js from "static"
 
 server.get("/*", function(_req, res, ) //error page
 {
-    const errorCode = 404
-    res.status(errorCode)
-    res.render("error", {errorCode: errorCode})
+    const statusCode = 404
+    res.status(statusCode).render("error", {statusCode: statusCode})
 })
 
 console.log(`%cDone. Server running at localhost:${port}`, "color: #00BFFF")
