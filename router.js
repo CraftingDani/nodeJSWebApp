@@ -48,11 +48,21 @@ router.post("/register", urlencodedParser, async function(req, res) //register
         const hashedPw = await bcrypt.hash(req.body.password, 10)
         db.connect(function(error)
         {
-            if(error) throw error
+            if(error)
+            {
+                const statusCode = 500
+                res.status(statusCode).render("error", {statusCode: statusCode})
+                console.error(error)
+            }
+
             db.query(`SELECT name FROM nodeserver WHERE name = '${req.body.name}'`, function(error, results)
             {
-                console.log(results.length)
-                if(error) console.log("error with query")
+                if(error)
+                {
+                    const statusCode = 500
+                    res.status(statusCore).render("error", {statusCode: statusCode})
+                    console.error(error)
+                }
 
                 if(results.length !== 0) //already taken
                 {
@@ -69,8 +79,7 @@ router.post("/register", urlencodedParser, async function(req, res) //register
     {
         const statusCode = 500
         res.status(statusCode).render("error", {statusCode: statusCode})
-        console.error("ERROR WHILE REGISTERING")
-        throw error
+        console.error(error)
     }
 })
 
@@ -94,7 +103,6 @@ router.post("/login", urlencodedParser, async function(req, res) //login
                 if(await bcrypt.compare(req.body.password, results[0].password))
                 {
                     res.status(100).redirect("/")
-                    console.log("pw true")
                     return
                 }
                 const statusCode = 401; //access denied
@@ -102,7 +110,9 @@ router.post("/login", urlencodedParser, async function(req, res) //login
             }
             catch(error)
             {
-                console.log("user not known")
+                const statusCode = 401; //access denied
+                res.status(statusCode).render("error", {statusCode: statusCode})
+                console.error(error)
             }
         })
     })
