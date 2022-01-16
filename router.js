@@ -1,6 +1,7 @@
 // Code() by CraftingDani;
 
 
+
 //-- constants --\\
 
 const express = require("express")
@@ -36,7 +37,7 @@ router.get("/", function(_req, res) //main
 })
 
 
-router.get("/register", function(req, res) //register
+router.get("/register", function(_req, res) //register
 {
     res.status(200).render("register", {error: ""})
 })
@@ -84,7 +85,7 @@ router.post("/register", urlencodedParser, async function(req, res) //register
 })
 
 
-router.get("/login", function(req, res) //login
+router.get("/login", function(_req, res) //login
 {
     res.status(200).render("login", {error: ""})
 })
@@ -93,13 +94,13 @@ router.post("/login", urlencodedParser, async function(req, res) //login
 {
     db.connect(async function(error)
     {
-        if(error) console.log("database error")
+        if(error) console.error(error)
         db.query(`SELECT password, email FROM nodeserver WHERE name = '${req.body.name}';`, async function(error, results)
         {
-            if(error) console.log("database error")
+            if(error) console.error(error)
             try
             {
-                if((await bcrypt.compare(req.body.password, results[0].password)) && (results[1].email == req.body.email))
+                if((await bcrypt.compare(req.body.password, results[0].password)) && (results[0].email == req.body.email))
                 {
                     res.status(100).redirect("/")
                     return
@@ -109,6 +110,7 @@ router.post("/login", urlencodedParser, async function(req, res) //login
             catch(error)
             {
                 res.status(401).render("login", {error: "User not registered!"})
+                console.log(error)
             }
         })
     })
