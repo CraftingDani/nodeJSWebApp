@@ -86,7 +86,7 @@ router.post("/register", urlencodedParser, async function(req, res) //register
 
 router.get("/login", function(req, res) //login
 {
-    res.status(200).render("login")
+    res.status(200).render("login", {error: ""})
 })
 
 router.post("/login", urlencodedParser, async function(req, res) //login
@@ -94,25 +94,21 @@ router.post("/login", urlencodedParser, async function(req, res) //login
     db.connect(async function(error)
     {
         if(error) console.log("database error")
-        db.query(`SELECT password FROM nodeserver WHERE name = '${req.body.name}';`, async function(error, results)
+        db.query(`SELECT password, email FROM nodeserver WHERE name = '${req.body.name}';`, async function(error, results)
         {
             if(error) console.log("database error")
-            console.log(results[0].password)
             try
             {
-                if(await bcrypt.compare(req.body.password, results[0].password))
+                if((await bcrypt.compare(req.body.password, results[0].password)) && (results[1].email == req.body.email))
                 {
                     res.status(100).redirect("/")
                     return
                 }
-                const statusCode = 401; //access denied
-                res.status(statusCode).render("error", {statusCode: statusCode})
+                res.status(401).render("login", {error: "Wrong password or email!"})
             }
             catch(error)
             {
-                const statusCode = 401; //access denied
-                res.status(statusCode).render("error", {statusCode: statusCode})
-                console.error(error)
+                res.status(401).render("login", {error: "User not registered!"})
             }
         })
     })

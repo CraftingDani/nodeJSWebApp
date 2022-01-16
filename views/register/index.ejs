@@ -9,13 +9,20 @@
     <link rel="shortcut icon" href="favicon.png">
     <script defer src="register/script.js"></script>
 </head>
+
 <body>
-    <form action="" class="form" method="post">
-        <p class="error"><%= error %> </p>
-        <input type="text" placeholder="name" name="name" id="inputName" class="input font" required>
-        <input type="email" placeholder="email" name="email" id="inputEmail" class="input font" required>
-        <input type="password" placeholder="password" name="password" id="inputPassword" class="input font" required>
-        <button class="font">Register</button>
+    <form action="/register" class="form" method="post">
+        <div class="selection">
+            <p>register</p>
+            <a href="/login" class="aLogin">login</a>
+        </div>
+        
+        <h1>Register</h1>
+        <p class="error"><%= error %></p>
+        <input type="text" placeholder="name" name="name" class="input font" required>
+        <input type="email" placeholder="email" name="email" class="input font" required>
+        <input type="password" placeholder="password" name="password" class="input font" required>
+        <button type="submit" class="font">Register</button>
     </form>
 </body>
 </html>

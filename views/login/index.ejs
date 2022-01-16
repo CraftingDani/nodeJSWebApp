@@ -5,16 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="register/style.css">
+    <link rel="stylesheet" href="login/style.css">
     <link rel="shortcut icon" href="favicon.png">
-    <script defer src="register/script.js"></script>
+    <script defer src="login/script.js"></script>
 </head>
 <body>
-    <form action="" class="login" method="post">
-        <input type="text" placeholder="name" name="name" id="inputName" class="input" required>
-        <input type="email" placeholder="email" name="email" id="inputEmail" class="input" required>
-        <input type="password" placeholder="password" name="password" id="inputPassword" class="input" required>
-        <button>Login</button>
+    <form action="" class="form" method="post">
+        <div class="selection">
+            <a class="aRegister" href="/register">register</a>
+            <p>login</p>
+        </div>
+
+        <h1>Login</h1>
+        <p class="error"><%= error %></p>
+        <input type="text" placeholder="name" name="name" id="inputName" class="input font" required>
+        <input type="email" placeholder="email" name="email" id="inputEmail" class="input font" required>
+        <input type="password" placeholder="password" name="password" id="inputPassword" class="input font" required>
+        <button class="font">Login</button>
     </form>
 </body>
 </html>
