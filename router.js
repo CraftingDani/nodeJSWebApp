@@ -9,20 +9,16 @@ const mysql = require("mysql2")
 const router = express.Router()
 const bcrypt = require("bcrypt")
 const bodyParser = require("body-parser");
-const urlencodedParser = bodyParser.urlencoded({extended: true});
-const db = mysql.createConnection
-({
-    host: "localhost",
-    user: "nodeServer",
-    password: "robotUsingMySQL2",
-    port: 3306,
-    database: "nodewebserver"
-})
 
+const urlencodedParser = bodyParser.urlencoded({extended: true});
+const db = mysql.createConnection({host: "localhost", user: "nodeServer", password: "robotUsingMySQL2", port: 3306, database: "nodewebserver"})
+
+const authenticatedUsers = ["", "", ""]
 
 //-- functionality --\\
 
 router.use(onRequest)
+router.use(urlencodedParser)
 
 function onRequest(req, _res, next)
 {
@@ -31,8 +27,14 @@ function onRequest(req, _res, next)
 }
 
 
-router.get("/", function(_req, res) //main
+router.get("/", function(req, res) //main
 {
+    if(authenticatedUsers.find(`USER IP`) != null) //logged in
+    {
+        res.status(100).redirect("/login")
+        return
+    }
+
     res.status(200).render("main")
 })
 
@@ -42,7 +44,7 @@ router.get("/register", function(_req, res) //register
     res.status(200).render("register", {error: ""})
 })
 
-router.post("/register", urlencodedParser, async function(req, res) //register
+router.post("/register", async function(req, res) //register
 {
     try
     {
@@ -56,7 +58,7 @@ router.post("/register", urlencodedParser, async function(req, res) //register
                 console.error(error)
             }
 
-            db.query(`SELECT name FROM nodeserver WHERE name = '${req.body.name}'`, function(error, results)
+            db.query(`SELECT name, email FROM nodeserver WHERE name = '${req.body.name}'`, function(error, results)
             {
                 if(error)
                 {
@@ -67,12 +69,12 @@ router.post("/register", urlencodedParser, async function(req, res) //register
 
                 if(results.length !== 0) //already taken
                 {
-                    res.status(200).render("register", {error: "Username is already taken!"})
+                    res.status(200).render("register", {error: "Username or email is already taken!"})
                     return
                 }
 
                 db.query(`INSERT INTO nodeserver (name, email, password) VALUES ('${req.body.name}', '${req.body.email}', '${hashedPw}');`)
-                res.status(201).redirect("/")
+                res.status(201).redirect("/login")
             })
         })
     }
@@ -90,7 +92,7 @@ router.get("/login", function(_req, res) //login
     res.status(200).render("login", {error: ""})
 })
 
-router.post("/login", urlencodedParser, async function(req, res) //login
+router.post("/login", async function(req, res) //login
 {
     db.connect(async function(error)
     {
@@ -103,6 +105,7 @@ router.post("/login", urlencodedParser, async function(req, res) //login
                 if((await bcrypt.compare(req.body.password, results[0].password)) && (results[0].email == req.body.email))
                 {
                     res.status(100).redirect("/")
+                    authenticatedUsers.push(`"${req.ip}"`)
                     return
                 }
                 res.status(401).render("login", {error: "Wrong password or email!"})

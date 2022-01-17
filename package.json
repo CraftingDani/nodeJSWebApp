@@ -1,40 +1,52 @@
 {
-   
+   
     "name": "nodeserver",
-   
+   
     "version": "0.2",
-   
+   
     "author": "CraftingDani",
-   
+   
     "description": "",
-   
+   
     "scripts": {
-   
-       
+   
+       
     "start": "nodemon server.js"
-   
+   
     },
-   
+   
     "dependencies": {
-   
-       
+   
+       
     "bcrypt": "^5.0.1",
-   
-       
+   
+       
     "ejs": "3.1.6",
-   
-       
+   
+       
     "express": "4.17.2",
-   
-       
-    "mysql2": "^2.3.3"
-   
+   
+       
+    "express-flash": "^0.0.2",
+   
+       
+    "express-session": "^1.17.2",
+   
+       
+    "mysql2": "^2.3.3",
+   
+       
+    "passport": "^0.5.2",
+   
+       
+    "passport-local": "^1.0.0"
+   
     },
-   
+   
     "devDependencies": {
-   
-       
+   
+       
     "nodemon": "^2.0.15"
-   
+   
     }
 }

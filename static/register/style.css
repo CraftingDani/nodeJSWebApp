@@ -113,7 +113,7 @@ h1
     padding-top: 30px;
     text-decoration: none;
     font-family: "calibri";
-    border-right: 1px solid lightgray;
+    border-right: 2px solid lightgray;
 }
 .aLogin:hover
 {
