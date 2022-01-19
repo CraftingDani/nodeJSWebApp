@@ -13,7 +13,6 @@ const bodyParser = require("body-parser");
 const urlencodedParser = bodyParser.urlencoded({extended: true});
 const db = mysql.createConnection({host: "localhost", user: "nodeServer", password: "robotUsingMySQL2", port: 3306, database: "nodewebserver"})
 
-const authenticatedUsers = ["", "", ""]
 
 //-- functionality --\\
 
@@ -27,14 +26,10 @@ function onRequest(req, _res, next)
 }
 
 
+//-- routes --\\
+
 router.get("/", function(req, res) //main
 {
-    if(authenticatedUsers.find(`USER IP`) != null) //logged in
-    {
-        res.status(100).redirect("/login")
-        return
-    }
-
     res.status(200).render("main")
 })
 
@@ -105,7 +100,6 @@ router.post("/login", async function(req, res) //login
                 if((await bcrypt.compare(req.body.password, results[0].password)) && (results[0].email == req.body.email))
                 {
                     res.status(100).redirect("/")
-                    authenticatedUsers.push(`"${req.ip}"`)
                     return
                 }
                 res.status(401).render("login", {error: "Wrong password or email!"})
